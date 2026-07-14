@@ -1,0 +1,4 @@
+interface:
+  display_name: "Make Video Pro CLI"
+  short_description: "Operate Make Video Pro through its AI-friendly CLI"
+  default_prompt: "Use $make-video-pro-cli to process and render this video with the Make Video Pro CLI."
