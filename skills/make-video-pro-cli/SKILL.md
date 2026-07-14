@@ -29,8 +29,9 @@ Respect a version explicitly pinned by the user. Otherwise use `@latest` so the 
 6. Run `templates --json` only when a saved template is requested or could materially change the requested processing.
 7. Use `--wait` when the user expects the processing or render to finish in the current task. Otherwise return the video ID and current status.
 8. Inspect `status <videoId> --json` before rendering when readiness is uncertain. Follow the structured next action instead of guessing.
-9. Prefer the current `render-local` invocation returned by help. Use paid server rendering only under the confirmation rules below.
-10. Verify the final file exists at the requested path before reporting completion.
+9. For follow-up changes to a processed video, reuse its existing video ID and render again with updated options. Do not upload the source again unless the source file changed or the requested change requires upload-time reprocessing. If the CLI cannot apply the change, explain the limitation instead of re-uploading.
+10. Prefer the current `render-local` invocation returned by help. Use paid server rendering only under the confirmation rules below.
+11. Verify the final file exists at the requested path before reporting completion.
 
 Use the production service by default. Pass `--base-url` or environment overrides only when the user explicitly requests a development or staging environment.
 
