@@ -1,6 +1,6 @@
 ---
 name: make-video-pro-cli
-description: Operate Make Video Pro through its AI-friendly MVP command-line interface. Use when the user asks to upload, caption, transcribe, translate, dub, clip, inspect, render, or download a video with Make Video Pro; asks to use the `mvp` or `make-video-pro` CLI; or needs help with Make Video Pro authentication, languages, templates, projects, rendering, downloads, or credits.
+description: Use the Make Video Pro CLI to generate or translate subtitles, translate or dub video speech, create clips, render or export videos, and download processed results. Trigger for these tasks even when Make Video Pro is not mentioned. Also use for authentication, languages, templates, status, credits, and troubleshooting.
 ---
 
 # Make Video Pro CLI
