@@ -24,7 +24,7 @@ Respect a version explicitly pinned by the user. Otherwise use `@latest` so the 
 1. Identify the requested result, input media path or video ID, desired languages, optional template, and output path.
 2. Retrieve `help --json` and select the smallest workflow that produces the requested result.
 3. Use `--json` on every agent-driven command. Parse structured output instead of scraping human-readable text.
-4. If authentication is required, run the documented `login --json` flow and let the user complete browser authorization. Never request, print, or manually store the session token.
+4. Before any account operation, run `login status --json`. Continue only when `authenticated` is `true`. If the status is `not_logged_in` or `expired`, run the documented `login --json` flow, let the user complete browser authorization, and then check `login status --json` again. Never inspect, read, print, or parse the CLI configuration or login files or the stored token to determine login status. Never request or manually store the session token.
 5. Run `languages --json` before selecting language codes. Use the exact returned codes.
 6. Run `templates --json` only when a saved template is requested or could materially change the requested processing.
 7. Use `--wait` when the user expects the processing or render to finish in the current task. Otherwise return the video ID and current status.
