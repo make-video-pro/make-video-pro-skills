@@ -25,15 +25,16 @@ Respect a version explicitly pinned by the user. Otherwise use `@latest` so the 
 2. Retrieve `help --json` and select the smallest workflow that produces the requested result.
 3. Use `--json` on every agent-driven command. Parse structured output instead of scraping human-readable text.
 4. Before any account operation, run `login status --json`. Continue only when `authenticated` is `true`. If the status is `not_logged_in` or `expired`, run the documented `login --json` flow, let the user complete browser authorization, and then check `login status --json` again. Never inspect, read, print, or parse the CLI configuration or login files or the stored token to determine login status. Never request or manually store the session token.
-5. Run `languages --json` before selecting language codes. Use the exact returned codes.
-6. Run `templates --json` only when a saved template is requested or could materially change the requested processing.
-7. Use `--wait` when the user expects the processing or render to finish in the current task. Otherwise return the video ID and current status.
-8. Inspect `status <videoId> --json` before rendering when readiness is uncertain. Follow the structured next action instead of guessing.
-9. If upload or restore reaches the active-video limit, run `list --json`, identify an unneeded active video, show its exact ID to the user, and obtain explicit confirmation before running `archive <videoId> --confirm --json`.
-10. Restore an archived video with `restore <videoId> --json` when an active-video slot is available.
-11. For follow-up changes to a processed video, reuse its existing video ID and render again with updated options. Do not upload the source again unless the source file changed or the requested change requires upload-time reprocessing. If the CLI cannot apply the change, explain the limitation instead of re-uploading.
-12. Prefer the current `render-local` invocation returned by help. For long videos, run local rendering in the agent or runtime's durable background mode and monitor it until completion. Do not keep a long local render inside one foreground tool call with a fixed timeout, because the runner may terminate it with `SIGTERM` when that timeout expires. If local rendering is unavailable or returns an error, stop and report it. Never switch to `render-server` as an automatic fallback.
-13. Verify the final file exists at the requested path before reporting completion.
+5. Before uploading a local video, run `fingerprint <file> --json`, then run `list --json` to retrieve every active video's `sourceMd5`. If the local `sourceMd5` matches a non-null list value, reuse the first matching `videoId`, inspect it with `status <videoId> --json`, and do not upload. Only upload when no active video matches. Archived videos are intentionally outside this duplicate check.
+6. Run `languages --json` before selecting language codes. Use the exact returned codes.
+7. Run `templates --json` only when a saved template is requested or could materially change the requested processing.
+8. Use `--wait` when the user expects the processing or render to finish in the current task. Otherwise return the video ID and current status.
+9. Inspect `status <videoId> --json` before rendering when readiness is uncertain. Follow the structured next action instead of guessing.
+10. If upload or restore reaches the active-video limit, run `list --json`, identify an unneeded active video, show its exact ID to the user, and obtain explicit confirmation before running `archive <videoId> --confirm --json`.
+11. Restore an archived video with `restore <videoId> --json` when an active-video slot is available.
+12. For follow-up changes to a processed video, reuse its existing video ID and render again with updated options. Do not upload the source again unless the source file changed or the requested change requires upload-time reprocessing. If the CLI cannot apply the change, explain the limitation instead of re-uploading.
+13. Prefer the current `render-local` invocation returned by help. For long videos, run local rendering in the agent or runtime's durable background mode and monitor it until completion. Do not keep a long local render inside one foreground tool call with a fixed timeout, because the runner may terminate it with `SIGTERM` when that timeout expires. If local rendering is unavailable or returns an error, stop and report it. Never switch to `render-server` as an automatic fallback.
+14. Verify the final file exists at the requested path before reporting completion.
 
 Use the production service by default. Pass `--base-url` or environment overrides only when the user explicitly requests a development or staging environment.
 
